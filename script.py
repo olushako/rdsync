@@ -54,7 +54,7 @@ def refresher():
         print (msg)
 
 print ('--- CONTAINER STARTED ---')
-schedule.every(refresh_period).minutes.do(refresher())
+schedule.every(refresh_period).minutes.do(refresher)
 
 while True:
     schedule.run_pending()
