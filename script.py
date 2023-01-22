@@ -1,5 +1,5 @@
 import requests, os
-import datetime, schedule, time
+import datetime, schedule
 
 refresh_period = int(os.environ['REFRESH_INTERVAL']) 
 apitoken = str(os.environ['API_TOKEN'])
