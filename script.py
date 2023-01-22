@@ -1,8 +1,10 @@
 import requests, os
 import datetime, schedule, time
 
+refresh_period = int(os.environ['REFRESH_INTERVAL']) 
+apitoken = str(os.environ['API_TOKEN'])
+
 def refresher():
-    apitoken = ''
     headers = {'Authorization': f'Bearer {apitoken}'}
     folder = '/streams'
     # Get List of torrents
@@ -51,9 +53,8 @@ def refresher():
         msg = f'{time}\tRemoved: {remove_counter}, Added: {added_counter}'
         print (msg)
 
-refresher()
-
-schedule.every().day.at('04:00').do(refresher)
+print ('--- CONTAINER STARTED ---')
+schedule.every(refresh_period).minutes.do(refresher())
 
 while True:
     schedule.run_pending()
