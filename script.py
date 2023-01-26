@@ -54,7 +54,7 @@ def refresher():
                 if (portfolio[file] not in line):
                     f.close()
                     f = open (folder + "/" + file,"w")
-                    the_file.write(portfolio[file]) 
+                    f.write(portfolio[file]) 
                     f.close()
                     update_counter=update_counter+1
 
