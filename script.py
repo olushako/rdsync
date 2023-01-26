@@ -32,7 +32,6 @@ def refresher():
             fname = fname.replace('.m4v','.strm')
             portfolio.update({fname:linkdata['download']})
 
-    # list files in streams folder and remove old cache
     remove_counter = 0
     files = next(os.walk(folder))[2]
     for file in files: 
