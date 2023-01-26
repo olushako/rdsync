@@ -4,6 +4,21 @@ import datetime, schedule, time
 refresh_period = int(os.environ['REFRESH_INTERVAL']) 
 apitoken = str(os.environ['API_TOKEN'])
 
+def difference(string1, string2):
+  string1 = string1.split('/')
+  string2 = string2.split('/')
+
+  A = set(string1)
+  B = set(string2)
+
+  str_diff = A.symmetric_difference(B)
+  isEmpty = (len(str_diff) == 0)
+ 
+  if isEmpty:
+    return None
+  else:
+    return str_diff
+
 def connected_to_internet(url='http://www.google.com/', timeout=5):
     try:
         _ = requests.head(url, timeout=timeout)
@@ -71,7 +86,7 @@ def refresher():
                     f = open (folder + "/" + file,"w")
                     f.write(portfolio[file]) 
                     f.close()
-                    print ('Updated: ' +file)
+                    print ('Updated. Difference: '+ difference(line, portfolio[file])+ ': ' +file)
                     update_counter=update_counter+1
                     break
 
