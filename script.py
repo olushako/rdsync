@@ -73,8 +73,9 @@ def refresher():
                     f.close()
                     print ('Updated: ' +file)
                     update_counter=update_counter+1
+                    break
 
-    if added_counter!=0 or remove_counter!=0:
+    if added_counter!=0 or remove_counter!=0 or update_counter!=0:
         time = str(datetime.datetime.now())
         msg = f'{time}\tRemoved: {remove_counter}, Added: {added_counter}, Updated: {update_counter}'
         print (msg)
