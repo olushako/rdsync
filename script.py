@@ -64,6 +64,7 @@ def refresher():
                 added_counter=added_counter+1
         else: 
             f = open(folder + "/" + file,"r")
+            f.close()
             lines = f.readlines()
             for line in lines:
                 if (portfolio[file] not in line):
@@ -71,6 +72,7 @@ def refresher():
                     f = open (folder + "/" + file,"w")
                     f.write(portfolio[file]) 
                     f.close()
+                    print ('Updated: ' +file)
                     update_counter=update_counter+1
 
     if added_counter!=0 or remove_counter!=0:
