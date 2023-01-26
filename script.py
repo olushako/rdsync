@@ -4,7 +4,22 @@ import datetime, schedule, time
 refresh_period = int(os.environ['REFRESH_INTERVAL']) 
 apitoken = str(os.environ['API_TOKEN'])
 
+def connected_to_internet(url='http://www.google.com/', timeout=5):
+    try:
+        _ = requests.head(url, timeout=timeout)
+        return True
+    except requests.ConnectionError:
+        print("No internet connection available.")
+    return False
+
 def refresher():
+
+    if (not connected_to_internet('https://api.real-debrid.com')): 
+        print ('No internet connection')
+        return
+
+    print (' - Iteration - ')
+
     headers = {'Authorization': f'Bearer {apitoken}'}
     folder = '/streams'
     # Get List of torrents
