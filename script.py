@@ -41,16 +41,27 @@ def refresher():
             remove_counter=remove_counter+1
 
     added_counter = 0
+    update_counter = 0
     # update streams repo
     for file in portfolio.keys():
         if not os.path.isfile(folder + "/" + file):
             with open(folder + "/" + file, 'a') as the_file:
                 the_file.write(portfolio[file]) 
                 added_counter=added_counter+1
+        else: 
+            f = open(folder + "/" + file,"r")
+            lines = f.readlines()
+            for line in lines:
+                if (portfolio[file] not in line):
+                    f.close()
+                    f = open (folder + "/" + file,"w")
+                    the_file.write(portfolio[file]) 
+                    f.close()
+                    update_counter=update_counter+1
 
     if added_counter!=0 or remove_counter!=0:
         time = str(datetime.datetime.now())
-        msg = f'{time}\tRemoved: {remove_counter}, Added: {added_counter}'
+        msg = f'{time}\tRemoved: {remove_counter}, Added: {added_counter}, Updated: {update_counter}'
         print (msg)
 
 print ('--- CONTAINER STARTED ---')
