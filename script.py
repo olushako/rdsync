@@ -86,7 +86,7 @@ def refresher():
                     f = open (folder + "/" + file,"w")
                     f.write(portfolio[file]) 
                     f.close()
-                    print ('Updated. Difference: '+ difference(line, portfolio[file])+ ': ' +file)
+                    print ('Updated. Difference: '+ str(difference(line, portfolio[file]))+ ': ' +file)
                     update_counter=update_counter+1
                     break
 
