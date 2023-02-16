@@ -4,6 +4,9 @@ import datetime, schedule, time
 refresh_period = int(os.environ['REFRESH_INTERVAL']) 
 apitoken = str(os.environ['API_TOKEN'])
 
+#refresh_period = 1
+#apitoken = "RVTMWMHDV6CONRRI7ATOZGAFPSY3A54YXMGOFCG26TZH43TQ5TXQ"
+
 def difference(string1, string2):
   string1 = string1.split('/')
   string2 = string2.split('/')
@@ -50,17 +53,28 @@ def refresher():
     portfolio = {}
     for link in links:
         data = {'link': link, 'password':''}
-        r = requests.post('https://api.real-debrid.com/rest/1.0/unrestrict/link', data = data, headers = headers)
-        linkdata = r.json()
-        if 'error_code' in linkdata:
-            continue
-        if str(linkdata['download']).lower().endswith(('.mkv', '.mp4', '.avi', '.m4v')):
-            fname = linkdata['filename'].lower()
-            fname = fname.replace('.mkv','.strm')
-            fname = fname.replace('.mp4','.strm')
-            fname = fname.replace('.avi','.strm')
-            fname = fname.replace('.m4v','.strm')
-            portfolio.update({fname:linkdata['download']})
+        x = requests.post('https://api.real-debrid.com/rest/1.0/unrestrict/check', data = data, headers = headers)
+        x_json = x.json()
+        if 'link' in x_json:
+            if str(x_json['filename']).lower().endswith(('.mkv', '.mp4', '.avi', '.m4v')):
+                fname = x_json['filename'].lower()
+                fname = fname.replace('.mkv','.strm')
+                fname = fname.replace('.mp4','.strm')
+                fname = fname.replace('.avi','.strm')
+                fname = fname.replace('.m4v','.strm')
+                portfolio.update({fname:x_json['filename']})
+        else:
+            r = requests.post('https://api.real-debrid.com/rest/1.0/unrestrict/link', data = data, headers = headers)
+            linkdata = r.json()
+            if 'error_code' in linkdata:
+                continue
+            if str(linkdata['download']).lower().endswith(('.mkv', '.mp4', '.avi', '.m4v')):
+                fname = linkdata['filename'].lower()
+                fname = fname.replace('.mkv','.strm')
+                fname = fname.replace('.mp4','.strm')
+                fname = fname.replace('.avi','.strm')
+                fname = fname.replace('.m4v','.strm')
+                portfolio.update({fname:linkdata['download']}) 
 
     remove_counter = 0
     files = next(os.walk(folder))[2]
