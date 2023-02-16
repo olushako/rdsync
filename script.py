@@ -96,6 +96,7 @@ def refresher():
         print (msg)
 
 print ('--- CONTAINER STARTED ---')
+refresher()
 schedule.every(refresh_period).minutes.do(refresher)
 
 while True:
